@@ -70,5 +70,5 @@ add_action('elementor/query/depotrum_page_query', function ($query) {
     $query->set('post_type', 'gd_place');
     $query->set('post__in', $gd_place_list_combined);
     $query->set('orderby', 'post__in');
-    $query->set('posts_per_page', 10);
+    $query->set('posts_per_page', 6);
 });
