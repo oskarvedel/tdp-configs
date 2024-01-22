@@ -6,6 +6,8 @@
  */
 
 
+date_default_timezone_set('Europe/Copenhagen');
+
 // Remove dashicons in frontend for unauthenticated users
 add_action('wp_enqueue_scripts', 'bs_dequeue_dashicons');
 function bs_dequeue_dashicons()
@@ -74,3 +76,21 @@ add_action('elementor/query/depotrum_page_query', function ($query) {
     $query->set('orderby', 'post__in');
     $query->set('posts_per_page', 6);
 });
+
+function handle_javascript_error()
+{
+    $_POST['error_message'] = $_POST['error_message'];
+
+    if (!isset($_POST['error_message'])) {
+        // Handle the case where the first name is not set (redirect or display an error message)
+        trigger_error('Javascript Error Handler: Error message is not set.', E_USER_ERROR);
+    } else if ($_POST['error_message'] == "no_booking_link") {
+        trigger_error('Javascript Error Handler: No booking link found, unit_id: ' . $_POST['unit_id'], E_USER_ERROR);
+    } else if ($_POST['error_message'] == "undefined_booking_error") {
+        trigger_error('Javascript Error Handler: Undefined booking error, unit_id: ' . $_POST['unit_id'], E_USER_ERROR);
+    }
+    exit();
+}
+
+add_action('wp_ajax_nopriv_javascript_error_action', 'handle_javascript_error');
+add_action('wp_ajax_javascript_error_action', 'handle_javascript_error');
