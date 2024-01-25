@@ -18,7 +18,6 @@ function bs_dequeue_dashicons()
     }
 }
 
-
 function modify_archive_query($query)
 {
     // Check if we are on the front end and if the main query is being modified
@@ -55,7 +54,6 @@ function modify_archive_query($query)
 }
 
 add_action('pre_get_posts', 'modify_archive_query', 1);
-
 
 //create custom query for "depotrum" page
 add_action('elementor/query/depotrum_page_query', function ($query) {
