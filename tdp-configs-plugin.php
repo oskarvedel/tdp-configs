@@ -5,6 +5,7 @@
  * Version: 1.0
  */
 
+require_once dirname(__FILE__) . '/tdp-common-configs.php';
 
 date_default_timezone_set('Europe/Copenhagen');
 
@@ -25,7 +26,7 @@ function modify_archive_query($query)
         // Target a specific archive page, e.g., a custom post type archive
         if ($query->is_post_type_archive('gd_place')) {
             // Extract the geolocation ID from the URL
-            $geolocation_id = extract_geolocation_id_via_url_seo_text();
+            $geolocation_id = extract_geolocation_id_via_url_seo_text_configs();
             global $wp;
             $current_url = add_query_arg(array(), $wp->request);
             // $special_location = get_post_meta($current_geolocation_id, 'special_location', true);
