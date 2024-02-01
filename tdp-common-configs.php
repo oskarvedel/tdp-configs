@@ -10,7 +10,7 @@
  *
  * @return string The geolocation slug extracted from the URL.
  */
-function extract_geolocation_slug_via_url_seo_text_configs()
+function extract_geolocation_slug_via_url_configs()
 {
 
     // Access the global $wp object
@@ -46,22 +46,31 @@ function extract_geolocation_slug_via_url_seo_text_configs()
  *
  * @return int|null The geolocation ID if found, null otherwise.
  */
-function extract_geolocation_id_via_url_seo_text_configs()
+function extract_geolocation_id_via_url_configs()
 {
 
     // Get the geolocation slug from the URL
-    $slug = extract_geolocation_slug_via_url_seo_text();
+    $slug = extract_geolocation_slug_via_url_configs();
 
-    // Use the Pods plugin to get the geolocation object associated with the slug
-    $slug_test = pods('geolocations', $slug);
+    // // Use the Pods plugin to get the geolocation object associated with the slug
+    // $slug_test = pods('geolocations', $slug);
+
+    // Use the get_page_by_path function to get the geolocation object associated with the slug
+    $geolocation_object = get_page_by_path($slug, OBJECT, 'geolocations');
+
 
     // Initialize the geolocation ID as null
     $geolocation_id = null;
 
     // If the geolocation object exists, extract its ID
-    if ($slug_test && $slug_test->exists()) {
-        $geolocation_id = $slug_test->field('ID');
+    if ($geolocation_object) {
+        $geolocation_id = $geolocation_object->ID;
     }
+
+    // // If the geolocation object exists, extract its ID
+    // if ($slug_test && $slug_test->exists()) {
+    //     $geolocation_id = $slug_test->field('ID');
+    // }
 
     // Return the geolocation ID
     return $geolocation_id;

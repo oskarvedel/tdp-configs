@@ -25,22 +25,24 @@ function modify_archive_query($query)
         // Target a specific archive page, e.g., a custom post type archive
         if ($query->is_post_type_archive('gd_place')) {
             // Extract the geolocation ID from the URL
-            $geolocation_id = extract_geolocation_id_via_url_seo_text_configs();
+            $geolocation_id = extract_geolocation_id_via_url_configs();
             global $wp;
             $current_url = add_query_arg(array(), $wp->request);
             // $special_location = get_post_meta($current_geolocation_id, 'special_location', true);
             if ($current_url == "lokation") {
                 $geolocation_id = 29783; //set geolocation id to Denmark
             }
-
+            // xdebug_break();
             // Assume this function returns an array of post IDs
             $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
-            if (!empty($gd_place_list_combined)) {
-                //get the ids from the gd_place_list_combined array
-                $gd_place_list_combined = array_map(function ($post) {
-                    return $post['ID'];
-                }, $gd_place_list_combined);
-            }
+
+            // disable Pods "Watch WP Metadata calls"
+            // if (!empty($gd_place_list_combined)) {
+            //get the ids from the gd_place_list_combined array
+            //     $gd_place_list_combined = array_map(function ($post) {
+            //         return $post['ID'];
+            //     }, $gd_place_list_combined);
+            // }
 
             // Set the post__in parameter for the main query
             if (!empty($gd_place_list_combined)) {
