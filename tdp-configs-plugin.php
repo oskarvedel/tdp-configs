@@ -32,17 +32,8 @@ function modify_archive_query($query)
             if ($current_url == "lokation") {
                 $geolocation_id = 29783; //set geolocation id to Denmark
             }
-            // xdebug_break();
             // Assume this function returns an array of post IDs
-            $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
-
-            // disable Pods "Watch WP Metadata calls"
-            // if (!empty($gd_place_list_combined)) {
-            //get the ids from the gd_place_list_combined array
-            //     $gd_place_list_combined = array_map(function ($post) {
-            //         return $post['ID'];
-            //     }, $gd_place_list_combined);
-            // }
+            $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', true);
 
             // Set the post__in parameter for the main query
             if (!empty($gd_place_list_combined)) {
@@ -62,15 +53,7 @@ add_action('elementor/query/depotrum_page_query', function ($query) {
     $geolocation_id = 17921; //set geolocation id to Denmark (tjekdepot.local)
     $geolocation_id = 29783; //set geolocation id to Denmark
 
-    $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
-    if (!empty($gd_place_list_combined)) {
-        // extract the ids from the gd_place_list_combined array
-        $gd_place_list_combined = array_map(function ($post) {
-            return $post['ID'];
-        }, $gd_place_list_combined);
-
-        $gd_place_list_combined = array_map('intval', $gd_place_list_combined);
-    }
+    $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', true);
 
     $query->set('post_type', 'gd_place');
     $query->set('post__in', $gd_place_list_combined);
