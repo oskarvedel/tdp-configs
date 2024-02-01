@@ -33,7 +33,7 @@ function modify_archive_query($query)
                 $geolocation_id = 29783; //set geolocation id to Denmark
             }
             // Assume this function returns an array of post IDs
-            $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', true);
+            $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
 
             // Set the post__in parameter for the main query
             if (!empty($gd_place_list_combined)) {
