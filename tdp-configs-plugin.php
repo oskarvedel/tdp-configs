@@ -51,7 +51,7 @@ add_action('pre_get_posts', 'modify_archive_query', 1);
 //create custom query for "depotrum" page
 add_action('elementor/query/depotrum_page_query', function ($query) {
     $geolocation_id = 17921; //set geolocation id to Denmark (tjekdepot.local)
-    $geolocation_id = 29783; //set geolocation id to Denmark
+    $geolocation_id = 29783; //set geolocation id to Denmark (tjekdepot.dk)
 
     $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
 
