@@ -53,7 +53,7 @@ add_action('elementor/query/depotrum_page_query', function ($query) {
     $geolocation_id = 17921; //set geolocation id to Denmark (tjekdepot.local)
     $geolocation_id = 29783; //set geolocation id to Denmark
 
-    $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', true);
+    $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
 
     $query->set('post_type', 'gd_place');
     $query->set('post__in', $gd_place_list_combined);
