@@ -78,3 +78,14 @@ function handle_javascript_error()
 
 add_action('wp_ajax_nopriv_javascript_error_action', 'handle_javascript_error');
 add_action('wp_ajax_javascript_error_action', 'handle_javascript_error');
+
+function my_custom_wp_mail_from( $email ) {
+    return 'system@tjekdepot.dk';
+}
+add_filter( 'wp_mail_from', 'my_custom_wp_mail_from' );
+
+// Optionally, force the "From" name for all outgoing WordPress emails
+function my_custom_wp_mail_from_name( $name ) {
+    return 'tjekdepot.dk'; // Change this to the name you want to appear
+}
+add_filter( 'wp_mail_from_name', 'my_custom_wp_mail_from_name' );
