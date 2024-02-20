@@ -21,7 +21,7 @@ function bs_dequeue_dashicons()
 function modify_archive_query($query)
 {
     // Check if we are on the front end and if the main query is being modified
-    if (!is_admin() && $query->is_main_query()) {
+    if ($query->is_main_query()) {
         // Target a specific archive page, e.g., a custom post type archive
         if ($query->is_post_type_archive('gd_place')) {
             // Extract the geolocation ID from the URL
@@ -79,13 +79,15 @@ function handle_javascript_error()
 add_action('wp_ajax_nopriv_javascript_error_action', 'handle_javascript_error');
 add_action('wp_ajax_javascript_error_action', 'handle_javascript_error');
 
-function my_custom_wp_mail_from( $email ) {
+function my_custom_wp_mail_from($email)
+{
     return 'system@tjekdepot.dk';
 }
-add_filter( 'wp_mail_from', 'my_custom_wp_mail_from' );
+add_filter('wp_mail_from', 'my_custom_wp_mail_from');
 
 // Optionally, force the "From" name for all outgoing WordPress emails
-function my_custom_wp_mail_from_name( $name ) {
+function my_custom_wp_mail_from_name($name)
+{
     return 'tjekdepot.dk'; // Change this to the name you want to appear
 }
-add_filter( 'wp_mail_from_name', 'my_custom_wp_mail_from_name' );
+add_filter('wp_mail_from_name', 'my_custom_wp_mail_from_name');
