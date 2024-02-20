@@ -36,12 +36,12 @@ function modify_archive_query($query)
             // Assume this function returns an array of post IDs
             $archive_gd_place_list = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
 
-            // // Get and log the post titles for each ID in the list
-            // $post_titles = array_map(function ($post_id) {
-            //     return get_the_title($post_id);
-            // }, $archive_gd_place_list);
+            // Get and log the post titles for each ID in the list
+            $post_titles = array_map(function ($post_id) {
+                return get_the_title($post_id);
+            }, $archive_gd_place_list);
 
-            // trigger_error('modify_archive_query: post titles: ' . print_r($post_titles, true), E_USER_NOTICE);
+            trigger_error('modify_archive_query: post titles: ' . print_r($post_titles, true), E_USER_NOTICE);
 
             // Set the post__in parameter for the main query
             if (!empty($archive_gd_place_list)) {
@@ -54,7 +54,46 @@ function modify_archive_query($query)
     }
 }
 
-add_action('pre_get_posts', 'modify_archive_query', 1);
+// add_action('pre_get_posts', 'modify_archive_query', 1);
+
+//create custom query for "opmagasinering" page
+add_action('elementor/query/lokation_page_query', function ($query) {
+
+    // Check if we are on the front end and if the main query is being modified
+    if (!is_admin()) {
+        // xdebug_break();
+        // Target a specific archive page, e.g., a custom post type archive
+
+        // trigger_error('lokation_page_query_test: gd_place archive', E_USER_NOTICE);
+        // Extract the geolocation ID from the URL
+        $geolocation_id = extract_geolocation_id_via_url_configs();
+        global $wp;
+        $current_url = add_query_arg(array(), $wp->request);
+        // $special_location = get_post_meta($current_geolocation_id, 'special_location', true);
+        if ($current_url == "lokation") {
+            $geolocation_id = 29783; //set geolocation id to Denmark
+        }
+        // Assume this function returns an array of post IDs
+        $archive_gd_place_list = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
+
+        // Get and log the post titles for each ID in the list
+        $post_titles = array_map(function ($post_id) {
+            return get_the_title($post_id);
+        }, $archive_gd_place_list);
+
+        // trigger_error('modify_archive_query: post titles: ' . print_r($post_titles, true), E_USER_NOTICE);
+
+        // Set the post__in parameter for the main query
+        if (!empty($archive_gd_place_list)) {
+            $query->set('post_type', 'gd_place');
+            $query->set('post__in', array_values($archive_gd_place_list));
+            $query->set('orderby', 'post__in');
+            $query->set('posts_per_page', 8);
+        } else {
+            $query->set('post__in', array(0));
+        }
+    }
+});
 
 //create custom query for "opmagasinering" page
 add_action('elementor/query/depotrum_page_query', function ($query) {
