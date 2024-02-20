@@ -36,12 +36,12 @@ function modify_archive_query($query)
             // Assume this function returns an array of post IDs
             $archive_gd_place_list = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
 
-            // Get and log the post titles for each ID in the list
-            $post_titles = array_map(function ($post_id) {
-                return get_the_title($post_id);
-            }, $archive_gd_place_list);
+            // // Get and log the post titles for each ID in the list
+            // $post_titles = array_map(function ($post_id) {
+            //     return get_the_title($post_id);
+            // }, $archive_gd_place_list);
 
-            trigger_error('modify_archive_query: post titles: ' . print_r($post_titles, true), E_USER_NOTICE);
+            // trigger_error('modify_archive_query: post titles: ' . print_r($post_titles, true), E_USER_NOTICE);
 
             // Set the post__in parameter for the main query
             if (!empty($archive_gd_place_list)) {
