@@ -24,6 +24,7 @@ function modify_archive_query($query)
     if ($query->is_main_query()) {
         // Target a specific archive page, e.g., a custom post type archive
         if ($query->is_post_type_archive('gd_place')) {
+            trigger_error('modify_archive_query: gd_place archive', E_USER_NOTICE);
             // Extract the geolocation ID from the URL
             $geolocation_id = extract_geolocation_id_via_url_configs();
             global $wp;
@@ -33,11 +34,18 @@ function modify_archive_query($query)
                 $geolocation_id = 29783; //set geolocation id to Denmark
             }
             // Assume this function returns an array of post IDs
-            $gd_place_list_combined = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
+            $archive_gd_place_list = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
+
+            // Get and log the post titles for each ID in the list
+            $post_titles = array_map(function ($post_id) {
+                return get_the_title($post_id);
+            }, $archive_gd_place_list);
+
+            trigger_error('modify_archive_query: post titles: ' . print_r($post_titles, true), E_USER_NOTICE);
 
             // Set the post__in parameter for the main query
-            if (!empty($gd_place_list_combined)) {
-                $query->set('post__in', array_values($gd_place_list_combined));
+            if (!empty($archive_gd_place_list)) {
+                $query->set('post__in', array_values($archive_gd_place_list));
                 $query->set('orderby', 'post__in');
             } else {
                 $query->set('post__in', array(0));
