@@ -21,7 +21,7 @@ function bs_dequeue_dashicons()
 function modify_archive_query($query)
 {
     // Check if we are on the front end and if the main query is being modified
-    if ($query->is_main_query()) {
+    if (!is_admin() && $query->is_main_query()) {
         // Target a specific archive page, e.g., a custom post type archive
         if ($query->is_post_type_archive('gd_place')) {
             trigger_error('modify_archive_query: gd_place archive', E_USER_NOTICE);
