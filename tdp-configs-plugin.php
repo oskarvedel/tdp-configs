@@ -56,7 +56,7 @@ function modify_archive_query($query)
 
 // add_action('pre_get_posts', 'modify_archive_query', 1);
 
-//create custom query for "opmagasinering" page
+//create custom query for "lokation" page
 add_action('elementor/query/lokation_page_query', function ($query) {
 
     // Check if we are on the front end and if the main query is being modified
@@ -76,10 +76,10 @@ add_action('elementor/query/lokation_page_query', function ($query) {
         // Assume this function returns an array of post IDs
         $archive_gd_place_list = get_post_meta($geolocation_id, 'archive_gd_place_list', false);
 
-        // Get and log the post titles for each ID in the list
-        $post_titles = array_map(function ($post_id) {
-            return get_the_title($post_id);
-        }, $archive_gd_place_list);
+        // // Get and log the post titles for each ID in the list
+        // $post_titles = array_map(function ($post_id) {
+        //     return get_the_title($post_id);
+        // }, $archive_gd_place_list);
 
         // trigger_error('modify_archive_query: post titles: ' . print_r($post_titles, true), E_USER_NOTICE);
 
